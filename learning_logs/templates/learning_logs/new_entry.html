@@ -1,0 +1,23 @@
+{% extends 'learning_logs/base.html' %}
+
+{% block content %}
+
+    <p><a href ="{% url 'learning_logs:topic' topic.id %}">{{ topic }}</a></p>
+
+    <p>Add a new entry:</p>
+
+    #下面的form.as_p是将表单渲染成段落的形式
+    #这样的话，表单中的每个字段都将显示为一个文本框，用户可以在其中输入数据
+    #在表单的末尾，我们添加了一个提交按钮，用户单击该按钮时，将提交表单
+    #在表单的开头，我们包含了一个{% csrf_token %}标签，它用于确保表单数据不受跨站请求伪造（CSRF）的攻击
+    #这个标签包含了一个唯一的令牌，用于验证用户提交的表单数据是否是他们自己提交的
+    #如果用户提交的数据不包含这个令牌，Django将拒绝这些数据
+    #这个令牌是Django自动生成的，我们只需要在表单中包含它即可
+    #在表单的开头，我们指定了表单的提交地址，这个地址是一个URL模式，它将请求发送到new_entry视图
+    <form action ="{% url 'learning_logs:new_entry' topic.id %}" method = 'post'>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button name = 'submit'>Add entry</button>
+    </form>
+
+{% endblock content %}
